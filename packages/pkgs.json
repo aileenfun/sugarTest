@@ -1,0 +1,12 @@
+[
+ {
+  "path": "/packages/peripherals/u8g2", 
+  "ver": "cpp-latest", 
+  "name": "U8G2"
+ }, 
+ {
+  "path": "/packages/misc/upacker", 
+  "ver": "latest", 
+  "name": "UPACKER"
+ }
+]

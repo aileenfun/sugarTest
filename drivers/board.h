@@ -72,15 +72,15 @@ extern "C"
 #define BSP_UART2_TX_PIN       "PA2"
 #define BSP_UART2_RX_PIN       "PA3"
 
-//FPGA-ARM uart
+//EC600 uart
 #define BSP_USING_UART1
 #define BSP_UART1_RX_USING_DMA
 #define BSP_UART1_TX_PIN       "PA9"
 #define BSP_UART1_RX_PIN       "PA10"
 
-#define BSP_USING_UART3
-#define BSP_UART3_TX_PIN       "PC10"
-#define BSP_UART3_RX_PIN       "PC11"
+#define BSP_USING_UART4
+#define BSP_UART4_TX_PIN       "PC10"
+#define BSP_UART4_RX_PIN       "PC11"
 /*-------------------------- UART CONFIG END --------------------------*/
 
 /*-------------------------- I2C CONFIG BEGIN --------------------------*/
@@ -255,7 +255,7 @@ extern "C"
  *                 such as     #define HAL_RTC_MODULE_ENABLED
  *
  */
-/*#define BSP_USING_ONCHIP_RTC*/
+#define BSP_USING_ONCHIP_RTC
 
 /*-------------------------- RTC CONFIG END --------------------------*/
 
@@ -372,7 +372,7 @@ extern "C"
  *
  */
 
-/*#define BSP_USING_ON_CHIP_FLASH*/
+#define BSP_USING_ON_CHIP_FLASH
 
 /*-------------------------- ON_CHIP_FLASH CONFIG END --------------------------*/
 

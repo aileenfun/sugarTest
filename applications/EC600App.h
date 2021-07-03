@@ -7,9 +7,9 @@
  * Date           Author       Notes
  * 2021-03-09     alanl       the first version
  */
-#ifndef APPLICATIONS_EC600_H_
+#ifndef APPLICATIONS_EC600APP_H_
 #define APPLICATIONS_EC600_H_
 
 int EC600App();
 
-#endif /* APPLICATIONS_EC600_H_ */
+#endif /* APPLICATIONS_EC600APP_H_ */

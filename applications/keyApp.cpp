@@ -12,17 +12,19 @@
 #include "UartInput.h"
 #include <U8g2lib.h>
 #include "Adafruit_MLX90614.h"
-
+#include "CDeviceStatus.h"
+#include "SensorCap.h"
+#include "PostCloud.h"
 #define KEY2ARM 106//PG10
 #define ARM2FPGA_KEY  44//PC12
 
-#define POWER_IN 33//PC1, state check
-#define POWER_OUT 34
-#define KEY1 58//PD10
-#define KEY2 59//PD11
+#define POWER_IN 11//PC1, state check
+#define POWER_OUT 12
+#define KEY1 48//PD10
+#define KEY2 49//PD11
 #define POWER_OFF_TIME 5*RT_TICK_PER_SECOND
 #define _TESTED
-
+#define EVENT_FLAG3 1
 
 
 // Check https://github.com/olikraus/u8g2/wiki/u8g2setupcpp for all supported devices
@@ -51,7 +53,18 @@ void u8g2_ssd1306_12864_hw_i2c_example(int mode,float tempout,float sugar)
     u8g2.print("C");
 
     u8g2.setCursor(0, 30);
-    u8g2.print("模式：苹果 ");
+    u8g2.print("模式： ");
+    switch(mode)
+    {
+    case 0:
+        u8g2.print("苹果");
+        break;
+    case 1:
+        u8g2.print("橘子");
+        break;
+    default:
+        u8g2.print("其他");
+    }
     u8g2.print(mode);
 
     u8g2.setCursor(0, 45);
@@ -64,13 +77,10 @@ void u8g2_ssd1306_12864_hw_i2c_example(int mode,float tempout,float sugar)
         u8g2.print(sugar,1);
     }
 
-    u8g2.setCursor(0, 60);
-    u8g2.print("   酸度：-----");
-
     u8g2.sendBuffer();                          // transfer internal memory to the display
-    //u8g2.setFont(u8g2_font_unifont_t_symbols);
-    //u8g2.drawGlyph(112, 56, 0x2603 );
-    //u8g2.sendBuffer();
+    //postCloud();
+    //char **argv;
+    //webclient_post_test(1,argv);
 }
 //MSH_CMD_EXPORT(u8g2_ssd1306_12864_sw_i2c_example, i2c ssd1306 software i2c sample);
 
@@ -81,7 +91,7 @@ static void key_thread_entry(void *parameter)
     float sugrst=0;
     int sugmode=0;
     int keyvalue=0;
-    int keyvalue2=0;
+    //int keyvalue2=0;
     rt_pin_mode(KEY2ARM, PIN_MODE_INPUT_PULLUP);
        rt_pin_mode(ARM2FPGA_KEY, PIN_MODE_OUTPUT);
        rt_pin_write(ARM2FPGA_KEY, PIN_HIGH);
@@ -92,7 +102,11 @@ static void key_thread_entry(void *parameter)
 
        rt_pin_mode(POWER_OUT, PIN_MODE_OUTPUT);
        rt_pin_write(POWER_OUT, PIN_HIGH);
+
+
        rt_tick_t lasttime=rt_tick_get();
+
+      // postCloudApp();
        while(1)
        {
 #ifdef _TESTED
@@ -117,13 +131,9 @@ static void key_thread_entry(void *parameter)
                rt_pin_write(POWER_OUT, 1);
                lasttime=rt_tick_get();
            }
-
-
-
-
 #endif
 
-//start check
+//switch mode
            keyvalue=rt_pin_read(KEY2);
            if(keyvalue==0)
              {
@@ -134,9 +144,11 @@ static void key_thread_entry(void *parameter)
                      sugmode++;
                      if(sugmode>4)
                          sugmode=0;
+                     m_deviceStatus.enum_ModeSN=sugmode;
                      u8g2_ssd1306_12864_hw_i2c_example(sugmode,tempout,sugrst);
                  }
              }
+//start process
            keyvalue=rt_pin_read(KEY1);
            if(keyvalue==0)
            {
@@ -147,11 +159,11 @@ static void key_thread_entry(void *parameter)
 
                    trig1Frame(0);
                    rt_thread_mdelay(1000);
-                   send2PC(0);
+//                   send2P2C(0);
                    rt_thread_mdelay(1000);
                    trig1Frame(1);
                    rt_thread_mdelay(1000);
-                   send2PC(1);
+//                   sendPC(1);
                    sugrst=CalcBuff(sugmode);
                    if(sugrst>17)
                    {
@@ -165,7 +177,14 @@ static void key_thread_entry(void *parameter)
                    }
 
                    tempout=(float)mlx.readObjectTempC();
+                   m_deviceStatus.sugerRst=sugrst;
+                   m_deviceStatus.tempOut=tempout;
                    u8g2_ssd1306_12864_hw_i2c_example(sugmode,tempout,sugrst);
+
+                   rt_thread_mdelay(500);
+                   rt_event_send(&ev_postCloud, EVENT_FLAG3);
+                  // char **temp;
+                  // webclient_get_test(1,temp);
                }
            }
            rt_thread_mdelay(100);
@@ -176,6 +195,7 @@ static void key_thread_entry(void *parameter)
 int keyApp()
 {
     int ret=0;
+
     rt_thread_t thread = rt_thread_create("key", key_thread_entry, RT_NULL, 4096, 11, 10);
     if(mlx.begin()<0)
     {

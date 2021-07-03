@@ -65,6 +65,18 @@
 
 /* Command shell */
 
+#define RT_USING_FINSH
+#define FINSH_THREAD_NAME "tshell"
+#define FINSH_USING_HISTORY
+#define FINSH_HISTORY_LINES 5
+#define FINSH_USING_SYMTAB
+#define FINSH_USING_DESCRIPTION
+#define FINSH_THREAD_PRIORITY 20
+#define FINSH_THREAD_STACK_SIZE 4096
+#define FINSH_CMD_SIZE 80
+#define FINSH_USING_MSH
+#define FINSH_USING_MSH_DEFAULT
+#define FINSH_ARG_MAX 10
 /* end of Command shell */
 
 /* Device virtual file system */
@@ -80,13 +92,20 @@
 /* Device Drivers */
 
 #define RT_USING_DEVICE_IPC
-#define RT_PIPE_BUFSZ 512
+#define RT_PIPE_BUFSZ 1024
+#define RT_USING_SYSTEM_WORKQUEUE
+#define RT_SYSTEM_WORKQUEUE_STACKSIZE 2048
+#define RT_SYSTEM_WORKQUEUE_PRIORITY 23
 #define RT_USING_SERIAL
 #define RT_SERIAL_USING_DMA
-#define RT_SERIAL_RB_BUFSZ 512
+#define RT_SERIAL_RB_BUFSZ 2048
 #define RT_USING_I2C
 #define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
+#define RT_USING_RTC
+#define RTC_SYNC_USING_NTP
+#define RTC_NTP_FIRST_SYNC_DELAY 30
+#define RTC_NTP_SYNC_PERIOD 3600
 
 /* Using USB */
 
@@ -103,10 +122,24 @@
 
 /* Socket abstraction layer */
 
+#define RT_USING_SAL
+
+/* protocol stack implement */
+
+#define SAL_USING_AT
+/* end of protocol stack implement */
+#define SAL_SOCKETS_NUM 16
 /* end of Socket abstraction layer */
 
 /* Network interface device */
 
+#define RT_USING_NETDEV
+#define NETDEV_USING_IFCONFIG
+#define NETDEV_USING_PING
+#define NETDEV_USING_NETSTAT
+#define NETDEV_USING_AUTO_DEFAULT
+#define NETDEV_IPV4 1
+#define NETDEV_IPV6 0
 /* end of Network interface device */
 
 /* light weight TCP/IP stack */
@@ -115,6 +148,13 @@
 
 /* AT commands */
 
+#define RT_USING_AT
+#define AT_USING_CLIENT
+#define AT_CLIENT_NUM_MAX 1
+#define AT_USING_SOCKET
+#define AT_USING_CLI
+#define AT_CMD_MAX_LEN 128
+#define AT_SW_VERSION_NUM 0x10300
 /* end of AT commands */
 /* end of Network */
 
@@ -124,6 +164,20 @@
 
 /* Utilities */
 
+#define RT_USING_ULOG
+#define ULOG_OUTPUT_LVL_D
+#define ULOG_OUTPUT_LVL 7
+#define ULOG_ASSERT_ENABLE
+#define ULOG_LINE_BUF_SIZE 128
+
+/* log format */
+
+#define ULOG_USING_COLOR
+#define ULOG_OUTPUT_TIME
+#define ULOG_OUTPUT_LEVEL
+#define ULOG_OUTPUT_TAG
+/* end of log format */
+#define ULOG_BACKEND_USING_CONSOLE
 /* end of Utilities */
 /* end of RT-Thread Components */
 
@@ -131,6 +185,13 @@
 
 /* IoT - internet of things */
 
+#define PKG_USING_WEBCLIENT
+#define WEBCLIENT_USING_SAMPLES
+#define WEBCLIENT_NOT_USE_TLS
+#define PKG_USING_WEBCLIENT_V212
+#define PKG_WEBCLIENT_VER_NUM 0x20102
+#define PKG_USING_CJSON
+#define PKG_USING_CJSON_LATEST_VERSION
 
 /* Wi-Fi */
 
@@ -142,10 +203,36 @@
 
 /* end of Wiced WiFi */
 /* end of Wi-Fi */
+#define PKG_USING_NETUTILS
+#define PKG_NETUTILS_NTP
+#define NTP_USING_AUTO_SYNC
+#define NTP_AUTO_SYNC_THREAD_STACK_SIZE 1500
+#define NTP_AUTO_SYNC_FIRST_DELAY 30
+#define NTP_AUTO_SYNC_PERIOD 3600
+#define NETUTILS_NTP_HOSTNAME "ntp.rt-thread.org"
+#define NETUTILS_NTP_HOSTNAME2 "ntp.rt-thread.org"
+#define NETUTILS_NTP_HOSTNAME3 "ntp.rt-thread.org"
+#define PKG_USING_NETUTILS_V131
+#define PKG_NETUTILS_VER_NUM 0x10301
+#define PKG_USING_AT_DEVICE
+#define AT_DEVICE_USING_EC200X
+#define AT_DEVICE_EC200X_INIT_ASYN
+#define AT_DEVICE_EC200X_SAMPLE
+#define EC200X_SAMPLE_POWER_PIN 41
+#define EC200X_SAMPLE_STATUS_PIN 40
+#define EC200X_SAMPLE_WAKEUP_PIN 38
+#define EC200X_SAMPLE_CLIENT_NAME "uart1"
+#define EC200X_SAMPLE_RECV_BUFF_LEN 2048
+#define PKG_USING_AT_DEVICE_LATEST_VERSION
+#define PKG_AT_DEVICE_VER_NUM 0x99999
 
 /* IoT Cloud */
 
 /* end of IoT Cloud */
+#define PKG_USING_OTA_DOWNLOADER
+#define PKG_USING_HTTP_OTA
+#define PKG_HTTP_OTA_URL "http://xxx/xxx/rtthread.rbl"
+#define PKG_USING_OTA_DOWNLOADER_LATEST_VERSION
 /* end of IoT - internet of things */
 
 /* security packages */
@@ -162,14 +249,32 @@
 
 /* tools packages */
 
+#define PKG_USING_EASYFLASH
+#define PKG_EASYFLASH_ENV
+#define PKG_EASYFLASH_IAP
+#define PKG_EASYFLASH_ERASE_GRAN 131072
+#define PKG_EASYFLASH_WRITE_GRAN_8BITS
+#define PKG_EASYFLASH_WRITE_GRAN 8
+#define PKG_EASYFLASH_START_ADDR 0
+#define PKG_EASYFLASH_DEBUG
+#define PKG_USING_EASYFLASH_V410
+#define PKG_EASYFLASH_VER_NUM 0x40100
 /* end of tools packages */
 
 /* system packages */
 
+/* acceleration: Assembly language or algorithmic acceleration packages */
+
+/* end of acceleration: Assembly language or algorithmic acceleration packages */
 
 /* Micrium: Micrium software products porting for RT-Thread */
 
 /* end of Micrium: Micrium software products porting for RT-Thread */
+#define PKG_USING_FAL
+#define FAL_DEBUG 0
+#define FAL_PART_HAS_TABLE_CFG
+#define PKG_USING_FAL_V00500
+#define PKG_FAL_VER_NUM 0x00500
 /* end of system packages */
 
 /* peripheral libraries and drivers */
@@ -206,14 +311,20 @@
 #define PKG_U8G2_VER_NUM 0x29999
 /* end of peripheral libraries and drivers */
 
+/* AI packages */
+
+/* end of AI packages */
+
 /* miscellaneous packages */
 
-#define PKG_USING_UPACKER
-#define PKG_USING_UPACKER_LATEST_VERSION
 
 /* samples: kernel and components samples */
 
 /* end of samples: kernel and components samples */
+
+/* entertainment: terminal games and other interesting software packages */
+
+/* end of entertainment: terminal games and other interesting software packages */
 /* end of miscellaneous packages */
 /* end of RT-Thread online packages */
 

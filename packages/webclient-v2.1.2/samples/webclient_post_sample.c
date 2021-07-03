@@ -12,15 +12,14 @@
 
 #include <rtthread.h>
 #include <webclient.h>
-#include <cjson.h>
 
 #define POST_RESP_BUFSZ                1024
 #define POST_HEADER_BUFSZ              1024
 
-#define POST_LOCAL_URI                 "http://221.214.6.66:7415/"
+#define POST_LOCAL_URI                 "http://www.rt-thread.com/service/echo"
 
-const char *post_data = "{\"ID\":\"1234\",\"vals\":[\"1\",\"2\"]}";
-//char* test=""123"";
+const char *post_data = "RT-Thread is an open source IoT operating system from China!";
+
 /* send HTTP POST request by common request interface, it used to receive longer data */
 static int webclient_post_comm(const char *uri, const char *post_data)
 {
@@ -61,7 +60,6 @@ static int webclient_post_comm(const char *uri, const char *post_data)
     do
     {
         bytes_read = webclient_read(session, buffer, POST_RESP_BUFSZ);
-
         if (bytes_read <= 0)
         {
             break;
@@ -71,20 +69,6 @@ static int webclient_post_comm(const char *uri, const char *post_data)
         {
             rt_kprintf("%c", buffer[index]);
         }
-
-        cJSON *root = RT_NULL, *object = RT_NULL;
-        root = cJSON_Parse((const char *)buffer);
-        if (!root)
-        {
-            rt_kprintf("No memory for cJSON root!\n");
-            return;
-        }
-        object = cJSON_GetObjectItem(root, "ID");
-        if(object->type == cJSON_Number)
-            rt_kprintf("CJson ID：%d",object->valueint);
-        object = cJSON_GetObjectItem(root, "rst");
-        if(object->type == cJSON_Number)
-            rt_kprintf("CJson rst：%d",(int)(object->valuedouble*100));
     } while (1);
 
     rt_kprintf("\n");
@@ -154,24 +138,7 @@ int webclient_post_test(int argc, char **argv)
             return -RT_ENOMEM;
         }
 
-        int idnum=123;
-
-        cJSON *cdatastream = cJSON_CreateObject();
-
-        cJSON *cid = cJSON_CreateNumber(idnum);
-        cJSON_AddItemToObject(cdatastream, "ID", cid);
-
-        cJSON *val=cJSON_CreateArray();
-        for(int i=0;i<256;i++)
-        {
-            cJSON *num1=cJSON_CreateNumber(i);
-            cJSON_AddItemToArray(val, num1);
-        }
-        cJSON_AddItemToObject(cdatastream, "val", val);
-
-        //rt_kprintf(cJSON_Print(cdatastream));
-
-        webclient_post_comm(uri, cJSON_Print(cdatastream));
+        webclient_post_comm(uri, post_data);
     }
     else if (argc == 2)
     {

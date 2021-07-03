@@ -16,6 +16,7 @@
 
 #if defined(PKG_USING_FAL)
 #include "fal.h"
+#include <fal_cfg.h>
 #endif
 
 //#define DRV_DEBUG

@@ -1,0 +1,4 @@
+比如 http://sugar.layla.group:7001/api/machine/model/56?col=id,CalibX
+这个id不是56吗？
+
+是先获取machine详情，就是该设备在服务器上的信息，然后从里面的models获取model 的ID列表

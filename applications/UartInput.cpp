@@ -68,7 +68,7 @@ float CalcBuff(int sugmode)
         tempdark=dark_buff[i+2];
         tempdark=tempdark*256+dark_buff[i+2+1];
         //difffloat[j]=(templight-tempdark)/(input0[j]);//3.2
-        float temp=(m_deviceStatus.paramInput[sugmode].input0[j]);
+        float temp=(m_deviceStatus.currentModelPtr->input0[j]);
         difffloat[j]=(templight-tempdark)/temp;
         j=j+1;
     }
@@ -83,12 +83,12 @@ float CalcBuff(int sugmode)
     {
 
         difffloat2[j]=difffloat[j]-difffloat[j-1];//4
-        difffloat[j-1]=difffloat2[j-1]-m_deviceStatus.paramInput[sugmode].input1[j-1];//5
-        accum=difffloat[j-1]*m_deviceStatus.paramInput[sugmode].input2[j-1]+accum;//6
+        difffloat[j-1]=difffloat2[j-1]-m_deviceStatus.currentModelPtr->input1[j-1];//5
+        accum=difffloat[j-1]*m_deviceStatus.currentModelPtr->input2[j-1]+accum;//6
 
     }
 
-    accum=accum+m_deviceStatus.paramInput[sugmode].input3;//7
+    accum=accum+m_deviceStatus.currentModelPtr->input3;//7
     switch(sugmode)
     {
     case 0:
@@ -114,7 +114,23 @@ float CalcBuff(int sugmode)
 }
 int trig1Frame(int s)
 {
-    char tempLightbuf[]={0x55,0xaa,0x05,0x01,0x0a,0x4B,0x01,0x00,0x33,0xcc};
+    int pwm=(int)(m_deviceStatus.PWM*m_deviceStatus.DetectCalibLightRatio1);
+    if(pwm<1)
+    {
+        pwm=1;
+    }
+    else if(pwm>100){
+        pwm=100;
+    }
+    int expo=m_deviceStatus.Exposure;
+    if(expo<5)
+    {
+        expo=5;
+    }
+    else if(expo>100){
+        expo=100;
+    }
+    char tempLightbuf[]={0x55,0xaa,0x05,0x01,0x0a,expo,pwm,0x00,0x33,0xcc};
     char tempDarkBuff[]={0x55,0xaa,0x05,0x01,0x0a,0x4B,0x00,0x00,0x33,0xcc};
 
     if(s==0)

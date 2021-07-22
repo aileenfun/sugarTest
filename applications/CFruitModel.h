@@ -9,15 +9,15 @@
  */
 #ifndef APPLICATIONS_CFRUITMODEL_H_
 #define APPLICATIONS_CFRUITMODEL_H_
-#include <string.h>
+#include<iostream>
 class CFruitModel
 {
 public:
     CFruitModel();
     virtual ~CFruitModel();
-    string ModelSN;//modelsn0001
-    string Label;//梨
-    string ModelFUNC;//"modelfuntion256"
+    std::string ModelSN;//modelsn0001
+    std::string Label;//梨
+    std::string ModelFUNC;//"modelfuntion256"
     int  Exposure;//60ms
     int DetectRepert;//
     int DetectFrequency;
@@ -25,9 +25,12 @@ public:
     int PreMethod;//1,2
     float TempCalibK;
     float TempCalibB;
+    float input0[256];
     float input1[256];
     float input2[256];
     float input3;
+    CFruitModel *next;
+    CFruitModel* parent;
 };
 
 #endif /* APPLICATIONS_CFRUITMODEL_H_ */

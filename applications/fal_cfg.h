@@ -24,6 +24,7 @@
 extern const struct fal_flash_dev stm32_onchip_flash_16k;
 extern const struct fal_flash_dev stm32_onchip_flash_64k;
 extern const struct fal_flash_dev stm32_onchip_flash_128k;
+extern struct fal_flash_dev nor_flash0;
 
 /* flash device table */
 #define FAL_FLASH_DEV_TABLE                                          \

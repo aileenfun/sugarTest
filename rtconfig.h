@@ -106,6 +106,11 @@
 #define RTC_SYNC_USING_NTP
 #define RTC_NTP_FIRST_SYNC_DELAY 30
 #define RTC_NTP_SYNC_PERIOD 3600
+#define RT_USING_SPI
+#define RT_USING_SFUD
+#define RT_SFUD_USING_SFDP
+#define RT_SFUD_USING_FLASH_INFO_TABLE
+#define RT_SFUD_SPI_MAX_HZ 50000000
 
 /* Using USB */
 
@@ -273,6 +278,8 @@
 #define PKG_USING_FAL
 #define FAL_DEBUG 0
 #define FAL_PART_HAS_TABLE_CFG
+#define FAL_USING_SFUD_PORT
+#define FAL_USING_NOR_FLASH_DEV_NAME "nor_flash0"
 #define PKG_USING_FAL_V00500
 #define PKG_FAL_VER_NUM 0x00500
 /* end of system packages */

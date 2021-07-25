@@ -17,6 +17,10 @@
 #include <drv_common.h>
 #include "drv_dma.h"
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 rt_err_t rt_hw_spi_device_attach(const char *bus_name, const char *device_name, GPIO_TypeDef* cs_gpiox, uint16_t cs_gpio_pin);
 
 struct stm32_hw_spi_cs
@@ -59,4 +63,7 @@ struct stm32_spi
     struct rt_spi_bus spi_bus;
 };
 
+#ifdef __cplusplus
+}
+#endif
 #endif /*__DRV_SPI_H_ */

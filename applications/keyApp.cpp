@@ -16,6 +16,7 @@
 #include "SensorCap.h"
 #include "PostCloud.h"
 #include"Screen.h"
+#include <drv_spi.h>
 #define KEY2ARM 106//PG10
 #define ARM2FPGA_KEY  44//PC12
 
@@ -54,7 +55,8 @@ static void key_thread_entry(void *parameter)
 
     rt_tick_t lasttime = rt_tick_get();
 
-    // postCloudApp();
+
+
     while (1)
     {
 #ifdef _TESTED

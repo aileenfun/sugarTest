@@ -46,7 +46,7 @@ static int webclient_post_comm2(const char *uri, const char *post_data, size_t d
         goto __exit;
     }
 
-    // rt_kprintf("webclient post response data: \n");
+    rt_kprintf("webclient post response data: \n");
     do
     {
         bytes_read = webclient_read(session, buffer, POST_RESP_BUFSZ);
@@ -73,6 +73,8 @@ static int webclient_post_comm2(const char *uri, const char *post_data, size_t d
 
 int postCloud(int checkNet)
 {
+    int rst=0;
+    rt_kprintf("postCloud 1 start \n");
 //pack 1
     cJSON *cdatastream = cJSON_CreateObject();
 
@@ -133,14 +135,16 @@ int postCloud(int checkNet)
     if (uri == RT_NULL)
     {
         rt_kprintf("no memory for create post request uri buffer.\n");
+        cJSON_Delete(cdatastream);
         return -RT_ENOMEM;
     }
-    char * output = cJSON_PrintUnformatted(cdatastream);
-    int rst = 0;
-    if (output)
+
+    char * output = cJSON_Print(cdatastream);
+    int rst2 = 0;
+    //if (output!=NULL)
     {
         rt_kprintf(output);
-        rst = webclient_post_comm2(uri, cJSON_PrintUnformatted(cdatastream), rt_strlen(output));
+        rst2 = webclient_post_comm2(uri, output, rt_strlen(output));
         free(output);
     }
     if (uri)
@@ -149,12 +153,12 @@ int postCloud(int checkNet)
     }
 
     cJSON_Delete(cdatastream);
-
-    return rst;
+    rt_kprintf("postCloud 1 end \n");
+    return rst2;
 }
 int postCloudPack2()
 {
-
+    rt_kprintf("postCloud 2 start \n");
     //pack 2
     cJSON *cdatastream2 = cJSON_CreateObject();
 
@@ -179,24 +183,27 @@ int postCloudPack2()
     cJSON_AddItemToObject(cdatastream2, "LightSpectrum", val2);
 
     char *uri = web_strdup(POST_LOCAL_URI);
-    char * output = cJSON_PrintUnformatted(cdatastream2);
+    char * output = cJSON_Print(cdatastream2);
     int rst = 0;
-    if (output)
+   // if (output!=NULL)
     {
-        //rt_kprintf(output);
+        rt_kprintf(output);
         rst = webclient_post_comm2(uri, output, rt_strlen(output));
         free(output);
     }
+
     if (uri)
     {
         web_free(uri);
     }
     cJSON_Delete(cdatastream2);
+    rt_kprintf("postCloud 2 end \n");
     return rst;
 }
 int webclient_get_comm(const char *uri)
 {
     struct webclient_session* session = RT_NULL;
+    rt_kprintf(uri);rt_kprintf("\n");
 
     int index, ret = 0;
     int bytes_read, resp_status;
@@ -211,7 +218,7 @@ int webclient_get_comm(const char *uri)
     }
 
     /* send GET request by default header */
-    if ((resp_status = webclient_get(session, uri)) != 200)
+    if ((resp_status = webclient_get(session, uri)) > 300)
     {
         rt_kprintf("webclient GET request failed, response(%d) error.\n", resp_status);
         ret = -RT_ERROR;
@@ -286,6 +293,8 @@ int getMachine()
     if (cj == NULL)
     {
         rt_kprintf("get machine cjson parse error\n");
+        cJSON_Delete(cj);
+        return -1;
     }
     else
     {
@@ -310,8 +319,9 @@ int getMachine()
     m_deviceStatus.PWM=cJSON_GetObjectItem(cj, "PWM")->valueint;
     m_deviceStatus.Exposure=cJSON_GetObjectItem(cj, "Exposure")->valueint;
     m_deviceStatus.DetectCalibLightRatio1=cJSON_GetObjectItem(cj, "DetectCalibLightRatio1")->valuedouble;
-    m_deviceStatus.saveStatus();
+
     cJSON_Delete(cj);
+    m_deviceStatus.saveStatus();
 //send to screen get 2 models
     return 1;
 
@@ -431,7 +441,7 @@ static void postCloud_thread_entry(void *parameter)
             postCloudPack2();
 
         }
-        else if(m_deviceStatus.netWorkStatus<1)
+        else if(0)//m_deviceStatus.netWorkStatus<1)
         {
              rt_thread_mdelay(10000);
              m_deviceStatus.netWorkStatus =  getMachine();
@@ -477,7 +487,7 @@ int postCloudApp()
         return -1;
     }
 
-    rt_thread_t thread = rt_thread_create("postCloud", postCloud_thread_entry, RT_NULL, 2048, 5, 10);
+    rt_thread_t thread = rt_thread_create("postCloud", postCloud_thread_entry, RT_NULL, 4096, 5, 10);
     if (thread != RT_NULL)
     {
         rt_thread_startup(thread);

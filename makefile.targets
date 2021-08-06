@@ -4,4 +4,4 @@ clean2:
 	-@echo ' '
 
 
-*.elf: $(wildcard ../linkscripts/STM32F407IG/link.lds)
+*.elf: $(wildcard C:/Users/alanl/Nextcloud/sugarTest/linkscripts/STM32F407IG/link.lds)

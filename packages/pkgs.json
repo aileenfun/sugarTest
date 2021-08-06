@@ -6,7 +6,7 @@
  }, 
  {
   "path": "/packages/iot/cJSON", 
-  "ver": "latest", 
+  "ver": "v1.5.9", 
   "name": "CJSON"
  }, 
  {

@@ -75,7 +75,7 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/EasyFlash-v4.1.0/inc}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/at_device-latest/class/ec200x}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/at_device-latest/inc}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/cJSON-latest}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/cJSON-v1.5.9}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/fal-v0.5.0/inc}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/netutils-v1.3.1/ntp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/ota_downloader-latest}&quot;" />
@@ -196,7 +196,7 @@
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/EasyFlash-v4.1.0/inc}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/at_device-latest/class/ec200x}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/at_device-latest/inc}&quot;" />
-                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/cJSON-latest}&quot;" />
+                  <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/cJSON-v1.5.9}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/fal-v0.5.0/inc}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/netutils-v1.3.1/ntp}&quot;" />
                   <listOptionValue builtIn="false" value="&quot;${workspace_loc://${ProjName}//packages/ota_downloader-latest}&quot;" />

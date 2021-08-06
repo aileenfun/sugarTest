@@ -128,7 +128,7 @@ static void key_thread_entry(void *parameter)
 
                 tempout = (float) mlx.readObjectTempC();
                 m_deviceStatus.sugerRst = sugrst;
-                m_deviceStatus.tempOut = tempout;
+                m_deviceStatus.tempOut = 0;//tempout;
                 screenShowRst();
 
                 rt_thread_mdelay(500);
